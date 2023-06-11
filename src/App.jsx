@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import MainLayout from "./layouts/MainLayout";
 import Grid from "./components/Grid";
 import Winner from "./components/Winner";
-
+import Button from "./components/Button"
 function App() {
   const [grid, setGrid] = useState([
     { id: 1, text: "" },
@@ -17,6 +17,23 @@ function App() {
   ]);
   const [user, setUser] = useState(true);
   const [winnerName, setWinnerName] = useState('');
+  const [darkTheme, setDarkTheme] = useState(false)
+  const handleTheme = () => {
+    setDarkTheme(!darkTheme)
+  }
+  const toggleThemeHtml = ()=>{
+    if (darkTheme){
+      document.documentElement.classList.add("dark")
+    }
+    else{
+      document.documentElement.classList.remove("dark")
+    }
+  }
+  useEffect(()=>{
+    toggleThemeHtml();
+  }, [darkTheme])
+    
+  
 
   function handlePlay(elementID) {
     //NO NO push splice pop shift unshift
@@ -70,17 +87,23 @@ function App() {
   if (winnerName) {
     return (
       <MainLayout>
+        <Button  handleTheme={handleTheme}>
+        switch theme
+        </Button>
         <Winner winnerName = {winnerName}/>
       </MainLayout>
       
     );
   }
-
   return (
     <MainLayout>
+      <Button  handleTheme={handleTheme}>
+        switch theme
+      </Button>
       <Grid grid={grid} handlePlay={handlePlay} />
     </MainLayout>
   );
-}
+  }
+
 
 export default App;
